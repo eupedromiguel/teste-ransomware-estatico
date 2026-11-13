@@ -1,4 +1,4 @@
-# Análise Estática de Ransomware — `svc_update.exe`
+# Análise Estática de Ransomware - `svc_update.exe`
 
 ![Kali Linux](https://img.shields.io/badge/Kali%20Linux-000000?style=flat&logo=kalilinux&logoColor=white)
 ![Análise estática](https://img.shields.io/badge/An%C3%A1lise-est%C3%A1tica-000000?style=flat)
@@ -6,7 +6,7 @@
 
 Laboratório de **análise estática** de um executável coletado em uma estação Windows atingida por ransomware. Sem executar a amostra, identifiquei o tipo real do arquivo, calculei os hashes, extraí indicadores de comprometimento (IoCs) pelas strings e levantei as capacidades do binário pelo cabeçalho PE e pelos imports.
 
-> Projeto de portfólio — laboratório de estudos em Segurança da Informação / Análise de Malware.<br>
+> Projeto de portfólio - laboratório de estudos em Segurança da Informação / Análise de Malware.<br>
 > **Autor:** Pedro Ataides
 
 > [!WARNING]
@@ -235,10 +235,6 @@ Essa etapa entregou metade dos IoCs com risco praticamente nulo e definiu o que 
 ```
 
 ---
-
-### English summary
-
-Static analysis lab of `svc_update.exe`, a 64-bit Windows (PE32+) console executable collected from a workstation hit by a ransomware simulation (files renamed to `.vlock`, ransom note `COMO_RECUPERAR.txt`). Without running the sample, I recorded SHA-256 hashes, confirmed the real file type with `file`, extracted IoCs with `strings` (extension, ransom-note name, C2 `127.0.0.1:4444`, campaign marker "OPERACAO MARE ALTA") and reviewed the PE header and imports with `objdump` (KERNEL32, ADVAPI32, WS2_32, msvcrt), whose combination supports the ransomware-with-C2 hypothesis. Next steps: function-level import review, a YARA rule, the ELF variant and dynamic analysis in an isolated VM.
 
 **Aviso:** uso educacional, em ambiente de laboratório.
 
