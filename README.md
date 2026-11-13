@@ -210,14 +210,6 @@ Essa etapa entregou metade dos IoCs com risco praticamente nulo e definiu o que 
 - **Tipo pelo cabeçalho:** identificação com `file`, sem confiar na extensão.
 - **IoCs objetivos:** apenas dados observáveis, sem "comportamento suspeito".
 
-## Próximos passos
-
-- [ ] Listar as funções importadas de cada DLL, para confirmar quais APIs de criptografia, arquivos e rede são usadas.
-- [ ] Procurar strings de destruição de backup (`vssadmin`, `wbadmin`, `shadow`).
-- [ ] Escrever uma regra YARA com `.vlock`, `COMO_RECUPERAR.txt` e `OPERACAO MARE ALTA`.
-- [ ] Analisar a variante ELF (`svc_update`).
-- [ ] Análise dinâmica em VM isolada (snapshot e rede desligada): confirmar a renomeação para `.vlock`, a nota de resgate, o autorun e a tentativa de conexão na porta 4444.
-
 ## Estrutura do repositório
 
 ```
