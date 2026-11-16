@@ -22,7 +22,7 @@ Laboratório de **análise estática** de um executável coletado em uma estaç�
 
 A estação **WS-LOG04** chegou à bancada com o usuário sem acesso aos próprios arquivos: todos estavam com a extensão `.vlock` e havia uma nota `COMO_RECUPERAR.txt` em três pastas. Em `AppData\Roaming` foi encontrado um `svc_update.exe`, que havia sido executado na estação e foi coletado.
 
-**Objetivo:** descobrir o que esse executável faz **antes de afirmar qualquer coisa** — e sem executá-lo.
+**Objetivo:** descobrir o que esse executável faz **antes de afirmar qualquer coisa** - e sem executá-lo.
 
 ## Por que começar pela análise estática
 
@@ -30,7 +30,7 @@ A estação **WS-LOG04** chegou à bancada com o usuário sem acesso aos própri
   <img src="docs/02-estatica-vs-dinamica.png" alt="Comparação entre análise estática e dinâmica: o que é, o que entrega, risco e limite de cada uma">
 </p>
 
-O limite da estática é o malware empacotado (*packed*), que esconde quase tudo — e aí entra a análise dinâmica, em ambiente isolado.
+O limite da estática é o malware empacotado (*packed*), que esconde quase tudo - e aí entra a análise dinâmica, em ambiente isolado.
 
 | Técnica | O que entrega |
 |---|---|
@@ -46,7 +46,7 @@ O limite da estática é o malware empacotado (*packed*), que esconde quase tudo
 | Sistema | Kali Linux |
 | Pasta de trabalho | `~/analise`, separada dos arquivos pessoais |
 | Ferramentas | `unzip`, `sha256sum`, `tee`, `file`, `strings`, `grep`, `objdump` |
-| Amostra | `amostra_svc_update.zip` — 118,5 KiB (121.306 bytes), protegido com a senha `infected` |
+| Amostra | `amostra_svc_update.zip` - 118,5 KiB (121.306 bytes), protegido com a senha `infected` |
 
 > A senha `infected` é a convenção usada no mundo todo para compartilhar amostras: ela impede que o antivírus leia o conteúdo do ZIP durante o download.
 
@@ -95,7 +95,7 @@ file svc_update.exe svc_update
 
 | Arquivo | Saída do `file` | Leitura |
 |---|---|---|
-| `svc_update.exe` | PE32+ executable for MS Windows 5.02 (console), x86-64, 18 sections | Executável Windows 64 bits, de console — o arquivo coletado na estação |
+| `svc_update.exe` | PE32+ executable for MS Windows 5.02 (console), x86-64, 18 sections | Executável Windows 64 bits, de console - o arquivo coletado na estação |
 | `svc_update` | ELF 64-bit LSB pie executable, x86-64, dynamically linked | Variante Linux da mesma amostra |
 
 O foco desta análise é o `svc_update.exe`.
@@ -114,14 +114,14 @@ strings -n 6 svc_update.exe | grep -iE "vlock|recuperar|4444|operacao"
 
 | String encontrada | O que indica |
 |---|---|
-| `.vlock` · `extensao usada: .vlock` | Extensão aplicada aos arquivos — a mesma vista na estação |
+| `.vlock` · `extensao usada: .vlock` | Extensão aplicada aos arquivos - a mesma vista na estação |
 | `COMO_RECUPERAR.txt` · `nota de resgate: COMO_RECUPERAR.txt` | Nome da nota de resgate |
 | `canal de retorno: 127.0.0.1:4444` | Endereço e porta do servidor de comando e controle (C2) |
-| `OPERACAO MARE ALTA` | Marcador da campanha — bom candidato para assinatura |
+| `OPERACAO MARE ALTA` | Marcador da campanha - bom candidato para assinatura |
 
 Na amostra de treino o C2 aponta para *loopback* (`127.0.0.1`), por isso a conexão é recusada; numa amostra real, seria o endereço externo a bloquear. A porta `4444` é a padrão dos *listeners* do Metasploit.
 
-**Sem executar nada, já dá para prever o que a amostra faz — e metade dos IoCs já está em mãos.**
+**Sem executar nada, já dá para prever o que a amostra faz - e metade dos IoCs já está em mãos.**
 
 ### 4. Cabeçalho PE e imports
 
@@ -156,7 +156,7 @@ Ordem de leitura: primeiro formato e arquitetura, depois as DLLs importadas.
 | `WS2_32.dll` | Winsock (sockets de rede) | Contato com o C2 em `127.0.0.1:4444` |
 | `msvcrt.dll` | Runtime C | Comum em binários compilados com MinGW |
 
-É a **combinação** dos imports — arquivos + criptografia + rede — que sustenta a hipótese de ransomware, e não uma DLL isolada.
+É a **combinação** dos imports - arquivos + criptografia + rede - que sustenta a hipótese de ransomware, e não uma DLL isolada.
 
 ---
 
@@ -178,11 +178,11 @@ IoC é dado observável que indica comprometimento; "comportamento suspeito" nã
 
 | Indicador | Status nesta análise |
 |---|---|
-| Extensão trocada em massa, com sufixo próprio da família | **Confirmado** — `.vlock` na estação e nas strings |
-| Nota de resgate repetida em várias pastas | **Confirmado** — `COMO_RECUPERAR.txt` em três pastas e nas strings |
-| Processo com uso intenso de disco em curto período | **Pendente** — só observável na análise dinâmica |
-| Tentativa de apagar cópias de sombra e backups | **Pendente** — não pesquisado nesta etapa |
-| Chamadas de criptografia nos imports | **Indício** — `ADVAPI32.dll` importada; falta confirmar as funções |
+| Extensão trocada em massa, com sufixo próprio da família | **Confirmado** - `.vlock` na estação e nas strings |
+| Nota de resgate repetida em várias pastas | **Confirmado** - `COMO_RECUPERAR.txt` em três pastas e nas strings |
+| Processo com uso intenso de disco em curto período | **Pendente** - só observável na análise dinâmica |
+| Tentativa de apagar cópias de sombra e backups | **Pendente** - não pesquisado nesta etapa |
+| Chamadas de criptografia nos imports | **Indício** - `ADVAPI32.dll` importada; falta confirmar as funções |
 
 ## Persistência
 
@@ -198,7 +198,7 @@ A análise estática **não confirma** onde o autorun da amostra é criado. A im
 
 ## Conclusão
 
-Sem executar o arquivo, a análise estática mostrou que `svc_update.exe` é um executável Windows de 64 bits, de console, cujas strings revelam a extensão `.vlock`, a nota `COMO_RECUPERAR.txt`, o canal de C2 `127.0.0.1:4444` e o marcador `OPERACAO MARE ALTA` — os mesmos sinais encontrados na WS-LOG04. A combinação de imports (arquivos, criptografia/registro e rede) sustenta a hipótese de ransomware com contato a servidor de comando.
+Sem executar o arquivo, a análise estática mostrou que `svc_update.exe` é um executável Windows de 64 bits, de console, cujas strings revelam a extensão `.vlock`, a nota `COMO_RECUPERAR.txt`, o canal de C2 `127.0.0.1:4444` e o marcador `OPERACAO MARE ALTA` - os mesmos sinais encontrados na WS-LOG04. A combinação de imports (arquivos, criptografia/registro e rede) sustenta a hipótese de ransomware com contato a servidor de comando.
 
 Essa etapa entregou metade dos IoCs com risco praticamente nulo e definiu o que a análise dinâmica precisa confirmar.
 
