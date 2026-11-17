@@ -217,6 +217,7 @@ Essa etapa entregou metade dos IoCs com risco praticamente nulo e definiu o que 
 ```
 .
 ├── README.md
+├── amostra_svc_update.zip
 └── docs/
     ├── 01-cenario-incidente.png
     ├── 02-estatica-vs-dinamica.png
