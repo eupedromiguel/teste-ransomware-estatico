@@ -57,7 +57,7 @@ O limite da estática é o malware empacotado (*packed*), que esconde quase tudo
 ### 1. Preparar a pasta de análise
 
 <p align="center">
-  <img src="docs/03-amostra-zip.png" alt="Propriedades do arquivo amostra_svc_update.zip no Kali: Zip archive, 118,5 KiB, localizado em /home/kali">
+  <img src="docs/03-amostra-properties.png" alt="Propriedades do arquivo amostra_svc_update.zip no Kali: Zip archive, 118,5 KiB, localizado em /home/kali">
 </p>
 
 ```bash
@@ -220,7 +220,7 @@ Essa etapa entregou metade dos IoCs com risco praticamente nulo e definiu o que 
 └── docs/
     ├── 01-cenario-incidente.png
     ├── 02-estatica-vs-dinamica.png
-    ├── 03-amostra-zip.png
+    ├── 03-amostra-properties.png
     ├── 04-hash-e-tipo-real.png
     ├── 05-pasta-analise.png
     ├── 06-strings.png
