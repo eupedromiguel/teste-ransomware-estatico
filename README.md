@@ -100,7 +100,7 @@ file svc_update.exe svc_update
 
 O foco desta análise é o `svc_update.exe`.
 
-Amostra fornecida para estudo pelo meu professor de Forense Computacional - [Bruno Rodrigues dos Reis](https://www.linkedin.com/in/brunorodrigues-security/).
+Amostra fornecida para estudo pelo meu professor de Forense Computacional · [Bruno Rodrigues dos Reis](https://www.linkedin.com/in/brunorodrigues-security/)
 
 ### 3. Strings: o que o binário entrega sem ser executado
 
